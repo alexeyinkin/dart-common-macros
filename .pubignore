@@ -1,0 +1,4 @@
+lib/src/client.dart
+lib/src/getter.dart
+lib/src/literal.dart
+test/literal_test.dart

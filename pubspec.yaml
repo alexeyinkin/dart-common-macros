@@ -1,0 +1,24 @@
+name: common_macros
+description: Macros for common tedious tasks.
+repository: https://github.com/alexeyinkin/dart-common-macros.git
+version: 0.1.0-1.dev
+
+environment:
+  sdk: ^3.5.0-202
+
+topics:
+  - macros
+
+dependencies:
+  collection: ^1.18.0
+  macro_util: ^0.1.0-2.dev
+  macros: ^0.1.1-main.0
+
+dev_dependencies:
+  show_augmentation: ^0.1.0-3.dev
+  test: ^1.25.5
+  total_lints: ^3.4.0
+
+#dependency_overrides:
+#  macro_util: { path: ../dart-macro-util }
+#  show_augmentation: { path: ../dart-show-augmentation }
