@@ -19,8 +19,12 @@ macro class Constructor implements ClassDeclarationsMacro {
     await _assertNoDuplicate(clazz, builder);
 
     final superCtor = await _requireUnnamedSuperConstructor(clazz, builder);
-    final thisParams =
-        await _getThisParams(clazz, builder, skipInitialized: skipInitialized);
+    final thisParams = await _getThisParams(
+      clazz,
+      builder,
+      skipInitialized: skipInitialized,
+    );
+
     final superPositionalParams = await _getSuperPositionalParams(superCtor);
     final superNamedParams = await _getSuperNamedParams(superCtor);
 
@@ -87,12 +91,16 @@ Future<List<List<Object>>> _getThisParams(
   final fields = await builder.fieldsOf(clazz);
 
   for (final field in fields) {
+    if (field.hasInitializer && field.hasFinal) {
+      continue;
+    }
+
     if (skipInitialized && field.hasInitializer) {
       continue;
     }
 
     final requiredKeyword = field.type.isNullable ? '' : 'required ';
-    result.add([requiredKeyword, field.identifier]);
+    result.add([requiredKeyword, 'this.', field.identifier]);
   }
 
   return result;

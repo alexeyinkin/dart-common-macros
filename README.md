@@ -1,5 +1,5 @@
 Macros for common tedious tasks.
 
-# `UnnamedConstructor`
+# `Constructor`
 
-Adds an unnamed constructor.
+Adds a constructor, optionally with a given name.
