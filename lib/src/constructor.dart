@@ -28,20 +28,22 @@ macro class Constructor implements ClassDeclarationsMacro {
     final superPositionalParams = await _getSuperPositionalParams(superCtor);
     final superNamedParams = await _getSuperNamedParams(superCtor);
 
-    final params = [
-      ...thisParams,
+    final namedParams = [
+      ...thisParams.named,
       ...superPositionalParams,
       ...superNamedParams,
     ];
 
-    final hasParams = params.isNotEmpty;
+    final hasParams = namedParams.isNotEmpty;
     final parts = <Object>[
       //
       clazz.identifier.name,
       if (name != '') '.$name',
       '(',
+      if (thisParams.positional.isNotEmpty)
+        ...thisParams.positional.expand((e) => ['\n', ...e, ',']).indent(),
       if (hasParams) '{\n',
-      ...params.expand((e) => [...e, ',\n']).indent(),
+      ...namedParams.expand((e) => [...e, ',\n']).indent(),
       if (hasParams) '}',
       ')',
     ];
@@ -82,15 +84,21 @@ macro class Constructor implements ClassDeclarationsMacro {
   }
 }
 
-Future<List<List<Object>>> _getThisParams(
+Future<({List<List<Object>> named, List<List<Object>> positional})>
+    _getThisParams(
   ClassDeclaration clazz,
   MemberDeclarationBuilder builder, {
   required bool skipInitialized,
 }) async {
-  final result = <List<Object>>[];
+  final named = <List<Object>>[];
+  final positional = <List<Object>>[];
   final fields = await builder.fieldsOf(clazz);
 
   for (final field in fields) {
+    if (field.hasStatic) {
+      continue;
+    }
+
     if (field.hasInitializer && field.hasFinal) {
       continue;
     }
@@ -99,11 +107,15 @@ Future<List<List<Object>>> _getThisParams(
       continue;
     }
 
-    final requiredKeyword = field.type.isNullable ? '' : 'required ';
-    result.add([requiredKeyword, 'this.', field.identifier]);
+    if (field.identifier.name.startsWith('_')) {
+      positional.add(['this.', field.identifier]);
+    } else {
+      final requiredKeyword = field.type.isNullable ? '' : 'required ';
+      named.add([requiredKeyword, 'this.', field.identifier]);
+    }
   }
 
-  return result;
+  return (named: named, positional: positional);
 }
 
 Future<List<List<Object>>> _getSuperPositionalParams(

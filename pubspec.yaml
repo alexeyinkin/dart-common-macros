@@ -1,7 +1,7 @@
 name: common_macros
 description: Macros for common tedious tasks.
 repository: https://github.com/alexeyinkin/dart-common-macros.git
-version: 0.1.0-3.dev
+version: 0.1.0-4.dev
 
 environment:
   sdk: ^3.5.0-152

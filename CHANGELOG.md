@@ -1,6 +1,10 @@
+## 0.1.0-4.dev
+
+* Fix: `Constructor`: make positional parameters from fields staring with an underscore. 
+
 ## 0.1.0-3.dev
 
-* Fix: skip final parameters with initializers.
+* Fix: `Constructor`: skip final parameters with initializers.
 
 ## 0.1.0-2.dev
 
