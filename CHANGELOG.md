@@ -1,3 +1,7 @@
+## 0.1.0-5.dev
+
+* Added `Constructor.getParts()` to create constructors for other classes in `declareInLibrary()`.
+
 ## 0.1.0-4.dev
 
 * Fix: `Constructor`: make positional parameters from fields staring with an underscore. 

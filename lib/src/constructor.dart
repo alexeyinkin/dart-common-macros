@@ -16,6 +16,14 @@ macro class Constructor implements ClassDeclarationsMacro {
     ClassDeclaration clazz,
     MemberDeclarationBuilder builder,
   ) async {
+    final parts = await getParts(clazz, builder);
+    builder.declareInType(DeclarationCode.fromParts(parts.indent()));
+  }
+
+  Future<List<Object>> getParts(
+    ClassDeclaration clazz,
+    MemberDeclarationBuilder builder,
+  ) async {
     await _assertNoDuplicate(clazz, builder);
 
     final superCtor = await _requireUnnamedSuperConstructor(clazz, builder);
@@ -60,8 +68,10 @@ macro class Constructor implements ClassDeclarationsMacro {
 
       parts.add(')');
     }
+
     parts.add(';');
-    builder.declareInType(DeclarationCode.fromParts(parts.indent()));
+
+    return parts;
   }
 
   Future<void> _assertNoDuplicate(
