@@ -1,3 +1,7 @@
+## 0.1.0-6.dev
+
+* Added `Constructor.isConst`.
+
 ## 0.1.0-5.dev
 
 * Added `Constructor.getParts()` to create constructors for other classes in `declareInLibrary()`.

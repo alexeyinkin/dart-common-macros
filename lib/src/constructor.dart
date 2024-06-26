@@ -3,13 +3,15 @@ import 'package:macro_util/macro_util.dart';
 import 'package:macros/macros.dart';
 
 macro class Constructor implements ClassDeclarationsMacro {
+  final bool isConst;
+  final String name;
+  final bool skipInitialized;
+
   const Constructor({
+    this.isConst = false,
     this.name = '',
     this.skipInitialized = false,
   });
-
-  final String name;
-  final bool skipInitialized;
 
   @override
   Future<void> buildDeclarationsForClass(
@@ -45,6 +47,7 @@ macro class Constructor implements ClassDeclarationsMacro {
     final hasParams = namedParams.isNotEmpty;
     final parts = <Object>[
       //
+      if (isConst) 'const ',
       clazz.identifier.name,
       if (name != '') '.$name',
       '(',
