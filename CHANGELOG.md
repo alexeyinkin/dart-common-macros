@@ -1,3 +1,9 @@
+## 0.1.0-7.dev
+
+* Added `Getter` macro.
+* Added `Constructor.extraNamedParameters`.
+* Require Dart 3.5 stable or above.
+
 ## 0.1.0-6.dev
 
 * Added `Constructor.isConst`.

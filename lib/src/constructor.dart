@@ -2,12 +2,25 @@ import 'package:collection/collection.dart';
 import 'package:macro_util/macro_util.dart';
 import 'package:macros/macros.dart';
 
+/// Generates a constructor for a class.
 macro class Constructor implements ClassDeclarationsMacro {
+  /// Code parts for extra parameters that can't be found by introspection.
+  ///
+  /// Use this if you generate fields in the same phase when this macro
+  /// is applied.
+  final List<List<Object>> extraNamedParameters;
+
+  /// Whether to add 'const' keyword.
   final bool isConst;
+
+  /// The name of the constructor.
   final String name;
+
+  /// Whether to skip the fields that have initializers on them.
   final bool skipInitialized;
 
   const Constructor({
+    this.extraNamedParameters = const [],
     this.isConst = false,
     this.name = '',
     this.skipInitialized = false,
@@ -42,6 +55,7 @@ macro class Constructor implements ClassDeclarationsMacro {
       ...thisParams.named,
       ...superPositionalParams,
       ...superNamedParams,
+      ...extraNamedParameters,
     ];
 
     final hasParams = namedParams.isNotEmpty;
